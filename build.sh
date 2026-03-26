@@ -26,11 +26,13 @@ else
   fi
 
   echo "Pulling latest Arch Linux Docker image..."
-  docker pull "$IMAGE"
+  docker pull --platform linux/amd64 "$IMAGE"
 
   echo "Building Kappa Linux ISO (Docker)..."
   docker run --rm \
+    --platform linux/amd64 \
     --privileged \
+    --security-opt seccomp=unconfined \
     -v "$REPO_ROOT/kappa-profile:/work/kappa-profile:ro" \
     -v "$REPO_ROOT/out:/out" \
     -v "$REPO_ROOT/scripts/build-inner.sh:/build-inner.sh:ro" \
