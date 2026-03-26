@@ -1,0 +1,68 @@
+name: Build and Release ISO
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag (e.g. v2026.03.26)'
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build ISO
+        run: |
+          mkdir -p out
+          docker pull archlinux:latest
+          docker run --rm \
+            --privileged \
+            --security-opt seccomp=unconfined \
+            -v "$PWD/kappa-profile:/work/kappa-profile:ro" \
+            -v "$PWD/out:/out" \
+            -v "$PWD/scripts/build-inner.sh:/build-inner.sh:ro" \
+            archlinux:latest \
+            bash /build-inner.sh
+
+      - name: Compress ISO
+        run: |
+          sudo apt-get install -y zstd
+          zstd -9 --rm out/kappa-*.iso
+          ls -lh out/
+
+      - name: Determine tag
+        id: tag
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "name=${{ github.event.inputs.tag }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "name=${{ github.ref_name }}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.tag.outputs.name }}
+          name: Kappa Linux ${{ steps.tag.outputs.name }}
+          body: |
+            ## Kappa Linux ${{ steps.tag.outputs.name }}
+
+            Arch-based desktop distribution with KDE Plasma, PipeWire, systemd-boot, and yay.
+
+            ### Installation
+            1. Decompress: `zstd -d kappa-*.iso.zst`
+            2. Write to USB: `sudo dd if=kappa-*.iso of=/dev/sdX bs=4M status=progress`
+            3. Boot and run `sudo kappa-install --yes`
+
+            **Default credentials:** `kappa` / `kappa` — change after first login.
+          files: out/*.iso.zst
+          fail_on_unmatched_files: true
