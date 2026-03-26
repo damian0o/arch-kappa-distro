@@ -46,11 +46,9 @@ wireplumber
 xorg-server
 xorg-xinit
 mesa
-xf86-video-vmware
 
 # --- KDE Plasma desktop ---
 plasma
-plasma-wayland-session
 kde-accessibility
 kde-graphics
 kde-multimedia
@@ -97,5 +95,5 @@ zip
 man-db
 bash-completion
 htop
-neofetch
+fastfetch
 sudo
