@@ -40,6 +40,19 @@ cat > /etc/skel/.config/plasma-welcomerc <<EOF
 ShouldShow=false
 EOF
 
+# --- yay AUR helper (built from source) ---
+# Build as a non-root user since makepkg refuses to run as root.
+# The kappa user already exists at this point.
+BUILD_DIR=/home/kappa/yay-build
+mkdir -p "$BUILD_DIR"
+chown kappa:kappa "$BUILD_DIR"
+su - kappa -s /bin/bash -c "
+  git clone https://aur.archlinux.org/yay.git '$BUILD_DIR'
+  cd '$BUILD_DIR'
+  makepkg -si --noconfirm
+"
+rm -rf "$BUILD_DIR"
+
 # --- Kappa environment marker ---
 cat > /etc/profile.d/kappa.sh <<EOF
 export KAPPA_VERSION="1.0"
