@@ -1,0 +1,9 @@
+NAME="Kappa Linux"
+PRETTY_NAME="Kappa Linux 1.0"
+ID=kappa
+ID_LIKE=arch
+BUILD_ID=rolling
+ANSI_COLOR="38;2;100;149;237"
+HOME_URL="https://kappa.example.org"
+DOCUMENTATION_URL="https://wiki.kappa.example.org"
+LOGO=kappa-logo

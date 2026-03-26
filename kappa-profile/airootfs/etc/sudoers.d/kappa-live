@@ -1,0 +1,3 @@
+## Kappa Linux live session — passwordless sudo for the live user.
+## This file is removed during installation by kappa-install.
+kappa ALL=(ALL) NOPASSWD: ALL
