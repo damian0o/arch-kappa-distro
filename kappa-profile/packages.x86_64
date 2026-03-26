@@ -136,7 +136,7 @@ noto-fonts
 noto-fonts-emoji
 ttf-hack
 
-# --- AUR helper build dependencies ---
+# --- AUR helper build dependencies (removed after yay is built in customize_airootfs.sh) ---
 go
 
 # --- System utilities ---

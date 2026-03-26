@@ -53,6 +53,9 @@ su - kappa -s /bin/bash -c "
 "
 rm -rf "$BUILD_DIR"
 
+# Remove go after yay is built — it's only needed to compile yay and adds ~500 MB.
+pacman -Rns --noconfirm go
+
 # --- Kappa environment marker ---
 cat > /etc/profile.d/kappa.sh <<EOF
 export KAPPA_VERSION="1.0"
