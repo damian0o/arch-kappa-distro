@@ -20,7 +20,9 @@ if [[ "$(uname -s)" == "Linux" ]] && command -v pacman &>/dev/null; then
   sudo rm -f /var/lib/pacman/sync/community.db /var/lib/pacman/sync/community.db.sig
 
   echo "Building Kappa Linux ISO (native)..."
-  sudo mkarchiso -v -w /tmp/kappa-work -o "$OUT_DIR" "$REPO_ROOT/kappa-profile"
+  # Use /var/tmp instead of /tmp — /tmp is often a tmpfs (RAM-backed) and too small
+  # for a full KDE Plasma build. /var/tmp persists to disk.
+  sudo mkarchiso -v -w /var/tmp/kappa-work -o "$OUT_DIR" "$REPO_ROOT/kappa-profile"
 else
   # --- macOS (or other non-Arch) — build via Docker ---
   if ! command -v docker &>/dev/null; then
