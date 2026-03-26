@@ -15,6 +15,10 @@ if [[ "$(uname -s)" == "Linux" ]] && command -v pacman &>/dev/null; then
     sudo pacman -Sy --noconfirm archiso
   fi
 
+  # Remove stale community.db if present — [community] was merged into [extra] in 2023
+  # and leaves a corrupted db that breaks mkarchiso.
+  sudo rm -f /var/lib/pacman/sync/community.db /var/lib/pacman/sync/community.db.sig
+
   echo "Building Kappa Linux ISO (native)..."
   sudo mkarchiso -v -w /tmp/kappa-work -o "$OUT_DIR" "$REPO_ROOT/kappa-profile"
 else
