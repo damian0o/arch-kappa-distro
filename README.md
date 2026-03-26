@@ -7,15 +7,15 @@ A custom Arch Linux-based desktop distribution for x86_64, featuring KDE Plasma 
 - KDE Plasma desktop (Wayland + X11)
 - PipeWire audio stack (with PulseAudio and JACK compatibility)
 - systemd-boot (UEFI only)
-- pacman package manager
+- pacman + yay (AUR helper, pre-installed)
 - Live session with auto-login
 - Shell-script installer (`kappa-install`)
 
 ## Requirements
 
 **On macOS:**
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/)
-- QEMU (`brew install qemu`)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) with at least **20 GB** virtual disk allocated (Settings → Resources → Virtual disk limit)
+- QEMU (`brew install qemu`) — only needed for local ISO testing
 
 **On Arch Linux:**
 - `archiso` (`sudo pacman -S archiso`)
