@@ -7,6 +7,9 @@ sed -i 's/#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
 locale-gen
 echo "LANG=en_US.UTF-8" > /etc/locale.conf
 
+# --- Console keymap (required by sd-vconsole mkinitcpio hook) ---
+echo "KEYMAP=us" > /etc/vconsole.conf
+
 # --- Timezone ---
 ln -sf /usr/share/zoneinfo/UTC /etc/localtime
 
